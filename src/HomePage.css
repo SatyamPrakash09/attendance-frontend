@@ -1,0 +1,109 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background-color: #151414;
+    color: #c5c2c2;
+}
+
+/* Header */
+header {
+    background-color: #32496c;
+    color: rgb(205, 169, 169);
+    text-align: center;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+/* Layout */
+.container {
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+/* Summary Cards */
+.summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.card {
+    background: rgba(47, 42, 42, 0.697);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.card h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.card p {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.highlight {
+    background-color: #302e2e;
+}
+
+/* Table */
+.table-section h2 {
+    margin-bottom: 15px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgb(169, 169, 169);
+    border-radius: 10px;
+    overflow: hidden;
+    color: #151414;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: center;
+}
+
+thead {
+    background-color: #334155;
+    color: white;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #c7c1c1;
+}
+
+.present {
+    color: green;
+    font-weight: bold;
+}
+
+.absent {
+    color: red;
+    font-weight: bold;
+}
+
+.holiday {
+  color: #7c3aed;
+  font-weight: bold;
+}
+
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 15px;
+    margin-top: 30px;
+    color: #555;
+}
