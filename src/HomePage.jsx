@@ -1,8 +1,6 @@
 import React, { useEffect, useState, useMemo } from "react";
 import "./HomePage.css";
 import ActionAlerts from "./components/ActionAlerts";
-import MonthlyCalendar from "./components/MonthlyCalendar";
-
 
 function getMonthYear(dateString) {
   return new Date(dateString).toLocaleDateString("en-IN", {
@@ -197,13 +195,10 @@ function HomePage() {
             </div>
           )}
         </section>
-        <section className="bg-black p-16 m-16 rounded-2xl mb-3">
-          <MonthlyCalendar attendanceData={attendanceData}/>
-        </section>
 
         {/* Attendance Table */}
-        <section className="table-section mt-4 p-20">
-          <h2 className="text-white text-3xl font-bold  ">Attendance Records</h2>
+        <section className="table-section">
+          <h2>Attendance Records</h2>
           <div className="table-controls">
             <button
               className="toggle-btn"
