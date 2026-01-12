@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import "./HomePage.css";
 import ActionAlerts from "./components/ActionAlerts";
+import MonthlyCalendar from "./components/MonthlyCalendar";
 
 function getMonthYear(dateString) {
   return new Date(dateString).toLocaleDateString("en-IN", {
@@ -160,28 +161,30 @@ function HomePage() {
 
       <main className="container">
         {/* Summary Cards */}
-        <section className="summary">
-          <div className="card">
-            <h2>Total Days</h2>
-            <p>{totalDays}</p>
-          </div>
+        <div className="container1">
+          <section className="summary">
+            <div className="card">
+              <h2>Total Days</h2>
+              <p>{totalDays}</p>
+            </div>
 
-          <div className="card">
-            <h2>Present</h2>
-            <p>{presentDays}</p>
-          </div>
+            <div className="card">
+              <h2>Present</h2>
+              <p>{presentDays}</p>
+            </div>
 
-          <div className="card">
-            <h2>Absent</h2>
-            <p>{absentDays}</p>
-          </div>
+            <div className="card">
+              <h2>Absent</h2>
+              <p>{absentDays}</p>
+            </div>
 
-          <div className="card highlight">
-            <h2>Attendance %</h2>
-            <p>{percentage}%</p>
-          </div>
-        </section>
-
+            <div className="card highlight">
+              <h2>Attendance %</h2>
+              <p>{percentage}%</p>
+            </div>
+          </section>
+        </div>
+    <div className="container2"></div>
         {/* AI Summary Section */}
         <section className="ai-section">
           <button className="summarize-btn" onClick={handleSummarize}>
@@ -195,10 +198,13 @@ function HomePage() {
             </div>
           )}
         </section>
-
+        <section className="bg-[#212121] rounded-2xl ">
+          <MonthlyCalendar attendanceData={attendanceData} />
+        </section>
         {/* Attendance Table */}
+
         <section className="table-section">
-          <h2>Attendance Records</h2>
+          <h2 className="text-2xl font-bold">Attendance Records</h2>
           <div className="table-controls">
             <button
               className="toggle-btn"
