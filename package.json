@@ -13,7 +13,6 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@mui/material": "^7.3.7",
-    "@vercel/analytics": "^1.6.1",
     "axios": "^1.13.2",
     "dotenv": "^17.2.3",
     "react": "^19.2.0",

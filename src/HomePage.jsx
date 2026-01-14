@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useMemo } from "react";
 import "./HomePage.css";
 import ActionAlerts from "./components/ActionAlerts";
+import TelegramLogin from "./components/TelegramLogin";
+
 import MonthlyCalendar from "./components/MonthlyCalendar";
 
 function getMonthYear(dateString) {
@@ -22,42 +24,67 @@ function HomePage() {
   message: "",
   severity: "success" // success | error | warning | info
   });
+  const userId = localStorage.getItem("userId");
+  const token = localStorage.getItem("token");
 
 
-
+  if (!userId || !token) {
+    return (
+      <main className="container">
+        <h1 className="text-2xl font-bold bg-blue-300 rounded-full p-3 m-3">
+          📘 Attendance Tracker
+        </h1>
+        <p>Please login with Telegram to continue</p>
+        <TelegramLogin />
+      </main>
+    );
+  }
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/attendance/all`)
+    if (!userId || !token) return;
+
+    fetch(`${import.meta.env.VITE_API_URL}/attendance/all?userId=${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
       .then(res => res.json())
       .then(setAttendanceData)
-      .catch(()=>{
+      .catch(() => {
         setAlert({
-          show:true,
-          severity:"error",
-          message:"❌ Backend not reachable"
-        })
+          show: true,
+          severity: "error",
+          message: "❌ Backend not reachable"
+        });
       });
-  }, []);
+  }, [userId, token]);
+
 
   async function handleSummarize() {
-  setLoading(true);
-  setSummary("");
+    setLoading(true);
+    setSummary("");
 
-  try {
-    const res = await fetch(
-      `${import.meta.env.VITE_API_URL}/attendance/summarize`,
-      { method: "POST" }
-    );
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/attendance/summarize?userId=${userId}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
 
-    const data = await res.json();
-    setSummary(data.summary);
+      const data = await res.json();
+      setSummary(data.summary);
 
-  } catch (err) {
-    setSummary(`Failed to generate summary: ${err}`);
-  } finally {
-    setLoading(false);
+    } catch (err) {
+      setSummary("Failed to generate summary");
+    } finally {
+      setLoading(false);
+    }
   }
-  }
+
 
 
 
@@ -143,51 +170,65 @@ function HomePage() {
     return groups;
   }, [attendanceData, sortOrder, statusFilter]);
 
+  
 
 
   return (
     <>
-      <main className="container">
-      <ActionAlerts
-        message={alert.show ? alert.message : ""}
-        severity={alert.severity}
-        onClose={() => setAlert({ ...alert, show: false })}
+    <main>
+      <h1 className="text-2xl font-bold stroke-yellow-500 bg-blue-300 rounded-full p-3 m-3">📘 Attendance Tracker</h1>
+      <TelegramLogin/>    
+    </main>   
+    <main className="container alert">
+    <ActionAlerts
+      message={alert.show ? alert.message : ""}
+      severity={alert.severity}
+      onClose={() => setAlert({ ...alert, show: false })}
       />
-      </main>
-      <header>
-        <h1 className="text-2xl font-bold stroke-yellow-500">📘 Attendance Tracker</h1>
-        <p>Personal College Attendance Dashboard</p>
-      </header>
+      <button
+        onClick={() => {
+          localStorage.removeItem("userId");
+          localStorage.removeItem("token");
+          window.location.reload();
+        }}
+        className="logout-btn bg-red-500 text-white p-3 m-3 text-center"
+      >
+        Logout
+      </button>
 
-      <main className="container">
-        {/* Summary Cards */}
-        <div className="container1">
-          <section className="summary">
-            <div className="card">
-              <h2>Total Days</h2>
-              <p>{totalDays}</p>
-            </div>
+    </main>
+    <header>
+      <h1 className="text-2xl font-bold stroke-yellow-500">📘 Attendance Tracker</h1>
+      <p>Personal College Attendance Dashboard</p>
+    </header>
 
-            <div className="card">
-              <h2>Present</h2>
-              <p>{presentDays}</p>
-            </div>
+    <main className="container">
+      {/* Summary Cards */}
+      <div className="container1 h-fit">
+        <section className="summary">
+          <div className="card">
+            <h2>Total Days</h2>
+            <p>{totalDays}</p>
+          </div>
 
-            <div className="card">
-              <h2>Absent</h2>
-              <p>{absentDays}</p>
-            </div>
+          <div className="card">
+            <h2>Present</h2>
+            <p>{presentDays}</p>
+          </div>
 
-            <div className="card highlight">
-              <h2>Attendance %</h2>
-              <p>{percentage}%</p>
-            </div>
-          </section>
-        </div>
-    <div className="container2"></div>
-        {/* AI Summary Section */}
+          <div className="card">
+            <h2>Absent</h2>
+            <p>{absentDays}</p>
+          </div>
+
+          <div className="card highlight" id="percent">
+            <h2>Attendance %</h2>
+            <p>{percentage}%</p>
+          </div>
+        </section>
+
         <section className="ai-section">
-          <button className="summarize-btn" onClick={handleSummarize}>
+          <button className=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" onClick={handleSummarize}>
             {loading ? "Summarizing " : "Summarize Attendance"}
           </button>
 
@@ -198,6 +239,8 @@ function HomePage() {
             </div>
           )}
         </section>
+      </div>
+    <div className="container2"></div>
         <section className="bg-[#212121] rounded-2xl ">
           <MonthlyCalendar attendanceData={attendanceData} />
         </section>
