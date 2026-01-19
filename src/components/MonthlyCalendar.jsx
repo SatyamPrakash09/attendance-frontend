@@ -66,7 +66,6 @@ export default function MonthlyCalendar({ attendanceData }) {
           return (
             <div key={i} className={getClass(status)}>
               <span className="date">{date.getDate()}</span>
-              {status && <span className="status">{status}</span>}
             </div>
           );
         })}

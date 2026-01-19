@@ -2,6 +2,7 @@
   margin-top: 30px;
   margin-bottom: 30px;
   color: black;
+
 }
 
 .calendar h2 {
@@ -9,6 +10,7 @@
   font-size: 30px;
   color: white;
   font-style: "Caveat";
+  text-align: center;
 }
 
 .calendar-header,
@@ -28,24 +30,24 @@
 .day {
   border-radius: 8px;
   padding: 8px;
-  min-height: 60px;
+  min-height: 40px;
   background: #f3f4f6;
   position: relative;
 }
 
 .day.present {
   background: #dcfce7;
-  color: #166534;
+  color: #0b843a;
 }
 
 .day.absent {
   background: #fee2e2;
-  color: #7f1d1d;
+  color: #b01d1d;
 }
 
 .day.holiday {
   background: #ede9fe;
-  color: #5b21b6;
+  color: #43148e;
 }
 
 .date {
