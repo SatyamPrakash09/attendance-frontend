@@ -50,15 +50,19 @@ body {
 .highlight { color: var(--accent); }
 
 .logout-btn {
-  background: transparent;
-  border: 1px solid var(--border);
-  color: var(--text-secondary);
+  background: #bc1f1f;
+  /* border: 1px solid var(--border); */
+  color: #ffffff;
   padding: 8px 16px;
   border-radius: 8px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.3s;
 }
-.logout-btn:hover { background: #ef4444; color: white; border-color: #ef4444; }
+.logout-btn:hover { 
+  background: #7d1010; 
+  color: #ddd4d4; 
+  /* border-color: #ef4444; */
+}
 
 /* --- Stats Grid --- */
 .stats-container {
