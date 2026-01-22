@@ -40,23 +40,23 @@ export default function MonthlyCalendar({ attendanceData }) {
   }
 
   function getClass(status) {
-    if (status === "Present") return "day present";
-    if (status === "Absent") return "day absent";
-    if (status === "Holiday") return "day holiday";
-    return "day";
+    if (status === "Present") return "bg-green-500 text-neutral-800 hover: bg-green-500 hover:brightness-125";
+    if (status === "Absent") return "bg-red-500 text-neutral-800 hover:brightness-125";
+    if (status === "Holiday") return "bg-cyan-400 text-neutral-800 hover:brightness-125 hover:bg-cyan-400";
+    return "text-neutral-300 hover:bg-[#3F3F46] bg-gradient-to-br from-[#252528] via-[#252528] to-[#2c2c30]";
   }
 
   return (
     <section className="calendar">
-      <h2>Monthly Calendar</h2>
+      <h2 className="text-[#3b82f6] mb-4 text-3xl text-center font-mono font-bold">Monthly Calendar</h2>
 
-      <div className="calendar-header">
+      <div className="calendar-header ml-4">
         {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(d => (
           <div key={d}>{d}</div>
         ))}
       </div>
 
-      <div className="calendar-grid">
+      <div className="calendar-grid mx-4">
         {days.map((date, i) => {
           if (!date) return <div key={i} />;
 
@@ -64,7 +64,12 @@ export default function MonthlyCalendar({ attendanceData }) {
           const status = attendanceMap[key];
 
           return (
-            <div key={i} className={getClass(status)}>
+            <div key={i} className={`w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 lg:w-10 lg:h-10 rounded-md flex items-center justify-center shrink-0
+          transition-all duration-200 relative 
+          border
+          hover:scale-110
+          border-transparent
+           ${getClass(status)}`}>
               <span className="date">{date.getDate()}</span>
             </div>
           );

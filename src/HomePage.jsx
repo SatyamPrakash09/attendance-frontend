@@ -4,6 +4,7 @@ import ActionAlerts from "./components/ActionAlerts";
 import MonthlyCalendar from "./components/MonthlyCalendar";
 import Button from '@mui/material/Button';
 import TelegramIcon from '@mui/icons-material/Telegram';
+import GitHubIcon from '@mui/icons-material/GitHub';
 import TelegramButton from "./pages/Telegram";
 
 
@@ -154,7 +155,7 @@ export default function HomePage() {
             bot.
           </p>
           <button className="p-3">
-            <TelegramButton/>
+            <TelegramButton />
           </button>
         </div>
       </div>
@@ -165,19 +166,23 @@ export default function HomePage() {
      8️⃣ MAIN UI
      ================================================= */
   return (
-    
-    <div className="app-container">
+
+    <div className="app-container bg-linear-to-b from-[#0D0D0F] to-[#1a1a1e]">
       {/* Navbar */}
-      <nav className="navbar">
-        <div className="brand">
-          <span className="logo">📅</span>
+      <nav className="navbar bg-[#0D0D0F]">
+        <div className="brand ">
+          <span className="logo"></span>
           <h1>
             Attendance <span className="highlight">Tracker</span>
           </h1>
         </div>
-        <button className="logout-btn" onClick={handleLogout}>
-          Logout
-        </button>
+        <div className="flex gap-4 justify-center">
+          <a target="_blank" href="https://github.com/SatyamPrakash09/attendance-frontend"><GitHubIcon style={{ width: 30, height: 30 }} className="mt-1.5" /></a>
+          <button className="px-4 py-2 rounded-2xl cursor-pointer text-red-600/80 hover:bg-red-400/40 hover:text-red-500/90 transition duration-200 border border-[#2A2B2F]" onClick={handleLogout}>
+            Logout
+          </button>
+        </div>
+
       </nav>
 
       <main className="main-content">
@@ -189,22 +194,42 @@ export default function HomePage() {
           />
         )}
 
-        {/* Stats */}
-        <section className="stats-container">
-          <StatCard label="Total Days : " value={totalDays} icon="🗓️" />
-          <StatCard label="Present : " value={presentDays} icon="✅" />
-          <StatCard label="Absent : " value={absentDays} icon="❌" />
-          <StatCard label="Attendance : " value={`${percentage}%`} icon="📈" />
-        </section>
+        <div className="py-8 md:py-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div className="flex-1">
+            <div className="flex flex-wrap items-center gap-3 mb-2">
+              <span className="bg-[#22D3EE]/10 text-[#22D3EE] text-[10px] font-bold px-2 py-1 rounded uppercase tracking-widest border border-[#22D3EE]/20">
+                Attendance Tracker
+              </span>
+              <span className="text-gray-500 text-sm font-medium">V 1.0</span>
+            </div>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-100 tracking-tight wrap-break-words">
+              THE YEAR <span className="text-[#22D3EE]">2026</span>
+            </h1>
+            <p className="text-gray-400 mt-2 font-medium max-w-xl text-sm md:text-base">
+              An efficient web-telegram-based attendance tracker featuring dynamic status cards and visual data summaries to help students manage academic records.
+            </p>
+          </div>
+
+          {/* Stats */}
+          
+          <section className="flex gap-3 md:gap-8 mb-12 justify-center flex-wrap sm:flex-nowrap">
+            <StatCard label="Total Days" value={totalDays} />
+            <StatCard label="Present" value={presentDays} />
+            <StatCard label="Absent" value={absentDays} />
+            <StatCard label="Attendance" value={`${percentage}%`} />
+          </section>
+          
+        </div>
+
 
         <div className="dashboard-grid">
           {/* LEFT */}
           <aside className="sidebar">
-            <div className="card mb-3">
+            <div className="card mb-3 border border-white/5 bg-linear-to-b from-[#1c1c21] to-[#16161A]">
               <MonthlyCalendar attendanceData={attendanceData} />
             </div>
 
-            <div className="card p-3 text-center">
+            <div className="card p-3 text-center border border-white/5 bg-linear-to-b from-[#1c1c21] to-[#16161A]">
               <h3>✨ AI Insight</h3>
               <button onClick={handleSummarize} disabled={loading}>
                 {loading ? "Thinking..." : "Summarize"}
@@ -214,20 +239,22 @@ export default function HomePage() {
           </aside>
 
           {/* RIGHT */}
-          <section className="card table-wrapper">
+          <section className="card table-wrapper bg-[#16161A] border border-[#2A2B2F]">
             <div className="table-header">
-              <h2>Attendance Records</h2>
-              <div className="controls">
-                <select
+              <h2 className="text-3xl text-[#3b82f6] font-mono font-bold">Attendance Records</h2>
+              <div className="controls flex gap-10">
+
+                <select className="block w-24 px-3 py-2 bg-neutral-secondary-medium border border-default-medium rounded-2xl text-heading text-sm rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body"
                   value={statusFilter}
                   onChange={e => setStatusFilter(e.target.value)}
                 >
-                  <option value="All">All</option>
-                  <option value="Present">Present</option>
-                  <option value="Absent">Absent</option>
-                  <option value="Holiday">Holiday</option>
+                  <option className="bg-slate-900" value="All">All</option>
+                  <option className="bg-slate-900" value="Present">Present</option>
+                  <option className="bg-slate-900" value="Absent">Absent</option>
+                  <option className="bg-slate-900" value="Holiday">Holiday</option>
                 </select>
                 <button
+                  className="border w-24 border-default-medium rounded-2xl px-3 py-2"
                   onClick={() =>
                     setSortOrder(o => (o === "latest" ? "oldest" : "latest"))
                   }
@@ -240,9 +267,9 @@ export default function HomePage() {
             <table>
               <thead>
                 <tr>
-                  <th>Date</th>
-                  <th>Status</th>
-                  <th>Reason</th>
+                  <th className="bg-[#1c1c21] py-4">Date</th>
+                  <th className="bg-[#1c1c21] py-4">Status</th>
+                  <th className="bg-[#1c1c21] py-4">Reason</th>
                 </tr>
               </thead>
               <tbody>
@@ -255,8 +282,8 @@ export default function HomePage() {
                 ) : (
                   Object.entries(groupedAttendance).map(([month, records]) => (
                     <React.Fragment key={month}>
-                      <tr className="month-header">
-                        <td colSpan="3">{month}</td>
+                      <tr className="month-header border-[#434655]">
+                        <td className="bg-[#171720] border-t border-t-[#334155] " colSpan="3">{month}</td>
                       </tr>
                       {records.map((r, i) => (
                         <tr key={i}>
@@ -278,12 +305,23 @@ export default function HomePage() {
 }
 
 /* -------------------- SMALL COMPONENTS -------------------- */
-const StatCard = ({ label, value, icon }) => (
-  <div className="stat-card">
-    <div>
-      <span className="label">{label}</span>
-      <span className="value">{value}</span>
+const StatCard = ({ label, value }) => {
+
+  const color =
+    label === "Total Days" ? "text-yellow-500" :
+      label === "Present" ? "text-green-500" :
+        label === "Absent" ? "text-red-500" :
+          label === "Attendance" && parseInt(value) > 95? "drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]":
+            "text-neutral-300";
+
+  return (
+    <div className="bg-linear-to-br from-[#232329] to-[#16161A] border border-white/5 rounded-xl p-3 md:p-4 flex flex-col items-center min-w-22.5 md:min-w-25 shadow-sm">
+      <span className={`text-xl md:text-2xl font-black ${color}`}>
+        {value}
+      </span>
+      <span className="text-[9px] md:text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+        {label}
+      </span>
     </div>
-    <div className="icon">{icon}</div>
-  </div>
-);
+  )
+};
