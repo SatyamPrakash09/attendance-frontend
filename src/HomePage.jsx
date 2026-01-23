@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useMemo } from "react";
 import "./HomePage.css";
 import ActionAlerts from "./components/ActionAlerts";
-import MonthlyCalendar from "./components/MonthlyCalendar";
 import Button from '@mui/material/Button';
 import Avatar from "@mui/material/Avatar";
 import TelegramIcon from '@mui/icons-material/Telegram';
 import { deepPurple } from '@mui/material/colors';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import TelegramButton from "./pages/Telegram";
+import AttendanceCalendar from "./components/Attendance_Calendar";
 
 
 /* -------------------- HELPERS -------------------- */
@@ -244,7 +244,7 @@ export default function HomePage() {
           {/* LEFT */}
           <aside className="sidebar">
             <div className="card mb-3 border border-white/5 bg-linear-to-b from-[#1c1c21] to-[#16161A]">
-              <MonthlyCalendar attendanceData={attendanceData} />
+              <AttendanceCalendar attendanceData={attendanceData} />
             </div>
 
             <div className="card p-3 text-center border border-white/5 bg-linear-to-b from-[#1c1c21] to-[#16161A]">
