@@ -3,7 +3,9 @@ import "./HomePage.css";
 import ActionAlerts from "./components/ActionAlerts";
 import MonthlyCalendar from "./components/MonthlyCalendar";
 import Button from '@mui/material/Button';
+import Avatar from "@mui/material/Avatar";
 import TelegramIcon from '@mui/icons-material/Telegram';
+import { deepPurple } from '@mui/material/colors';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import TelegramButton from "./pages/Telegram";
 
@@ -34,6 +36,7 @@ export default function HomePage() {
   const [summary, setSummary] = useState("");
   const [sortOrder, setSortOrder] = useState("latest");
   const [statusFilter, setStatusFilter] = useState("All");
+  // const[userName,setUserName] = useState("Not Found")
   const [alert, setAlert] = useState({
     show: false,
     message: "",
@@ -100,6 +103,12 @@ export default function HomePage() {
   const absentDays = workingDays.filter(d => d.status === "Absent").length;
   const percentage =
     totalDays === 0 ? "0.0" : ((presentDays / totalDays) * 100).toFixed(1);
+
+  
+  let userName = "Testing";
+  if (workingDays.length > 0){
+    userName = workingDays[0]?.name|| "Testing";
+  }
 
   /* =================================================
      5️⃣ AI SUMMARY (frontend mock)
@@ -177,6 +186,15 @@ export default function HomePage() {
           </h1>
         </div>
         <div className="flex gap-4 justify-center">
+          <div className="flex items-center gap-3 text-lg text-white">
+            <Avatar sx={{ bgcolor: deepPurple[400] }}>
+              {userName ? userName.charAt(0).toUpperCase() : "?"}
+            </Avatar>
+            
+            <span className="font-semibold">
+              {userName}
+            </span>
+          </div>
           <a target="_blank" href="https://github.com/SatyamPrakash09/attendance-frontend"><GitHubIcon style={{ width: 30, height: 30 }} className="mt-1.5" /></a>
           <button className="px-4 py-2 rounded-2xl cursor-pointer text-red-600/80 hover:bg-red-400/40 hover:text-red-500/90 transition duration-200 border border-[#2A2B2F]" onClick={handleLogout}>
             Logout
