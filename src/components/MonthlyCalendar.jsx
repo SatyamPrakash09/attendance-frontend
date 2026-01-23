@@ -50,13 +50,13 @@ export default function MonthlyCalendar({ attendanceData }) {
     <section className="calendar">
       <h2 className="text-[#3b82f6] mb-4 text-3xl text-center font-mono font-bold">Monthly Calendar</h2>
 
-      <div className="calendar-header ml-4">
+      <div className="calendar-header ">
         {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(d => (
           <div key={d}>{d}</div>
         ))}
       </div>
 
-      <div className="calendar-grid mx-4">
+      <div className="calendar-grid">
         {days.map((date, i) => {
           if (!date) return <div key={i} />;
 
@@ -64,7 +64,7 @@ export default function MonthlyCalendar({ attendanceData }) {
           const status = attendanceMap[key];
 
           return (
-            <div key={i} className={`w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 lg:w-10 lg:h-10 rounded-md flex items-center justify-center shrink-0
+            <div key={i} className={`w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 lg:w-8 lg:h-8 rounded-md flex items-center justify-center shrink-0
           transition-all duration-200 relative 
           border
           hover:scale-110
