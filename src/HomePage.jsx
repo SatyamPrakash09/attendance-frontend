@@ -8,6 +8,7 @@ import { deepPurple } from '@mui/material/colors';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import TelegramButton from "./pages/Telegram";
 import AttendanceCalendar from "./components/Attendance_Calendar";
+import Tooltip from "./components/tooltip";
 
 
 /* -------------------- HELPERS -------------------- */
@@ -104,10 +105,10 @@ export default function HomePage() {
   const percentage =
     totalDays === 0 ? "0.0" : ((presentDays / totalDays) * 100).toFixed(1);
 
-  
+
   let userName = "User";
-  if (workingDays.length > 0){
-    userName = workingDays[0]?.name|| "User";
+  if (workingDays.length > 0) {
+    userName = workingDays[0]?.name || "User";
   }
 
   /* =================================================
@@ -187,15 +188,20 @@ export default function HomePage() {
         </div>
         <div className="flex gap-4 justify-center">
           <div className="flex items-center gap-3 text-lg text-white">
-            <Avatar sx={{ bgcolor: deepPurple[400] }}>
-              {userName ? userName.charAt(0).toUpperCase() : "?"}
-            </Avatar>
-            
-            <span className="font-semibold">
-              {userName}
-            </span>
+
+            <Tooltip
+              text={userName}
+              position="bottom"
+            >
+              <Avatar sx={{ bgcolor: deepPurple[400] }}>
+                {userName ? userName.charAt(0).toUpperCase() : "?"}
+              </Avatar>
+            </Tooltip>
+
           </div>
-          <a target="_blank" href="https://github.com/SatyamPrakash09/attendance-frontend"><GitHubIcon style={{ width: 30, height: 30 }} className="mt-1.5" /></a>
+          <Tooltip text="Frontend Github" position="bottom">
+            <a target="_blank" href="https://github.com/SatyamPrakash09/attendance-frontend"><GitHubIcon style={{ width: 30, height: 30 }} className="mt-1.5" /></a>
+          </Tooltip>
           <button className="px-4 py-2 rounded-2xl cursor-pointer text-red-600/80 hover:bg-red-400/40 hover:text-red-500/90 transition duration-200 border border-[#2A2B2F]" onClick={handleLogout}>
             Logout
           </button>
@@ -221,7 +227,7 @@ export default function HomePage() {
               <span className="text-gray-500 text-sm font-medium">V 1.0</span>
             </div>
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-100 tracking-tight wrap-break-words">
-              THE YEAR <span className="text-[#22D3EE]">2026</span>
+              THE YEAR <span className="text-[#22D3EE]">{new Date().getFullYear()}</span>
             </h1>
             <p className="text-gray-400 mt-2 font-medium max-w-xl text-sm md:text-base">
               An efficient web-telegram-based attendance tracker featuring dynamic status cards and visual data summaries to help students manage academic records.
@@ -229,14 +235,14 @@ export default function HomePage() {
           </div>
 
           {/* Stats */}
-          
+
           <section className="flex gap-3 md:gap-8 mb-12 justify-center flex-wrap sm:flex-nowrap">
             <StatCard label="Total Days" value={totalDays} />
             <StatCard label="Present" value={presentDays} />
             <StatCard label="Absent" value={absentDays} />
             <StatCard label="Attendance" value={`${percentage}%`} />
           </section>
-          
+
         </div>
 
 
@@ -329,7 +335,7 @@ const StatCard = ({ label, value }) => {
     label === "Total Days" ? "text-yellow-500" :
       label === "Present" ? "text-green-500" :
         label === "Absent" ? "text-red-500" :
-          label === "Attendance" && parseInt(value) > 95? "drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]":
+          label === "Attendance" && parseInt(value) > 95 ? "drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" :
             "text-neutral-300";
 
   return (

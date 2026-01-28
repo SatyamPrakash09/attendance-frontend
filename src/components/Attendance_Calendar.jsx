@@ -26,22 +26,33 @@ export default function AttendanceCalendar({ attendanceData }) {
     if (status === "Absent") bg = "#f44336";
     if (status === "Holiday") bg = "#ff9800";
 
+  function getCalenderClass(status) {
+    if (status === "Present") return "bg-gradient-to-br from-green-500 to-green-500 text-neutral-800 hover: bg-green-500 hover:brightness-125";
+    if (status === "Absent") return "bg-gradient-to-br from-red-500 to-red-500 text-neutral-800 hover:brightness-125";
+    if (status === "Holiday") return "bg-gradient-to-br from-cyan-500 to-cyan-500 text-neutral-800 hover:brightness-125 hover:bg-cyan-400";
+    return "text-neutral-300 hover:bg-[#3F3F46] bg-gradient-to-br from-[#252528] via-[#252528] to-[#2c2c30]";
+  }
+
     return (
       <PickersDay
         {...other}
         day={day}
         outsideCurrentMonth={outsideCurrentMonth}
-        sx={{
-          backgroundColor: bg,
-          color: bg ? "white" : "white",
-          fontSize:15,
-          margin:"2px",
-          borderRadius:"10px",
-          fontStyle:"bold",
-          "&:hover": {
-            backgroundColor: bg || "#e0e0e0",
-            color:"black",
+        className= {`w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 lg:w-8 lg:h-8 rounded-md flex items-center justify-center shrink-0 transition-all duration-200 relative border hover:scale-110 border-transparent ${getCalenderClass(status)}`
           }
+        
+        sx={{
+          // backgroundColor: bg,
+          color: bg ? "black" : "white",
+          fontSize: 15,
+          margin: "2px",
+          borderRadius: "5px",
+          fontStyle: "bold",
+          transition: "all 200ms",
+          // "&:hover": {
+          //   backgroundColor: bg || "#e0e0e0",
+          //   color: "black",
+          // }
         }}
       />
     );
@@ -49,15 +60,16 @@ export default function AttendanceCalendar({ attendanceData }) {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <GlobalStyles 
+      <GlobalStyles
         styles={{
           // This targets the specific class for the Day Labels (M, T, W...)
           ".MuiDayCalendar-weekDayLabel": {
-            color: "#ffffff !important", 
-            fontSize: "1rem !important", 
+            color: "#ffffff !important",
+            fontSize: "1rem !important",
           }
         }}
-        />
+      />
+      <h2 className="text-[#3b82f6] mb-4 text-3xl text-center font-mono font-bold mt-6">Monthly Calendar</h2>
       <DateCalendar
         views={["day"]}
         slots={{
