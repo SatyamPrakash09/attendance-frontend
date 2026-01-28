@@ -288,7 +288,49 @@ export default function HomePage() {
               </div>
             </div>
 
-            <table>
+                        <div class="max-h-100 overflow-y-auto
+  [&::-webkit-scrollbar]:w-2
+  [&::-webkit-scrollbar-track]:rounded-none
+  [&::-webkit-scrollbar-track]:bg-gray-100
+  [&::-webkit-scrollbar-thumb]:rounded-none
+  [&::-webkit-scrollbar-thumb]:bg-gray-300
+  dark:[&::-webkit-scrollbar-track]:bg-neutral-700
+  dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
+              <table>
+                <thead>
+                  <tr>
+                    <th className="bg-[#1c1c21] py-4">Date</th>
+                    <th className="bg-[#1c1c21] py-4">Status</th>
+                    <th className="bg-[#1c1c21] py-4">Reason</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {Object.keys(groupedAttendance).length === 0 ? (
+                    <tr>
+                      <td colSpan="3" className="no-data">
+                        No records found
+                      </td>
+                    </tr>
+                  ) : (
+                    Object.entries(groupedAttendance).map(([month, records]) => (
+                      <React.Fragment key={month}>
+                        <tr className="month-header border-[#434655]">
+                          <td className="bg-[#171720] border-t border-t-[#334155] " colSpan="3">{month}</td>
+                        </tr>
+                        {records.map((r, i) => (
+                          <tr key={i}>
+                            <td>{formatDate(r.date)}</td>
+                            <td>{r.status}</td>
+                            <td>{r.reason || "—"}</td>
+                          </tr>
+                        ))}
+                      </React.Fragment>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+            {/* <table>
               <thead>
                 <tr>
                   <th className="bg-[#1c1c21] py-4">Date</th>
@@ -320,7 +362,7 @@ export default function HomePage() {
                   ))
                 )}
               </tbody>
-            </table>
+            </table> */}
           </section>
         </div>
       </main>
