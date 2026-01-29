@@ -114,18 +114,18 @@ export default function HomePage() {
   /* =================================================
      5️⃣ AI SUMMARY (frontend mock)
      ================================================= */
-  const handleSummarize = () => {
-    if (totalDays === 0) {
-      setSummary("No attendance data available yet.");
-      return;
-    }
+  async function handleSummarize(){
+    try{
 
-    setSummary("Analyzing patterns...");
-    setTimeout(() => {
-      setSummary(
-        `You have maintained ${percentage}% attendance. Try to avoid consecutive absences to stay above the safe limit.`
-      );
-    }, 1200);
+      setSummary("Analyzing patterns...");
+      const result = await fetch(`${API_BASE}/attendance/summarize?userId=${userId}`)
+      const response = await result.json()
+      setSummary(response.summary)
+      
+    }catch(e){
+      return(`Error: ${e}`)
+    }
+    
   };
 
   /* =================================================
