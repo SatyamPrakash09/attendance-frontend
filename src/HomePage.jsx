@@ -9,6 +9,7 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import TelegramButton from "./pages/Telegram";
 import AttendanceCalendar from "./components/Attendance_Calendar";
 import Tooltip from "./components/tooltip";
+import ThemeSignInPage from "./LoginPage";
 
 
 /* -------------------- HELPERS -------------------- */
@@ -29,7 +30,7 @@ function formatDate(dateString) {
 
 /* ================================================= */
 export default function HomePage() {
-  const API_BASE = "https://attendance-backend-hhkn.onrender.com";
+  const API_BASE = import.meta.env.VITE_API_URL;
 
   const [userId, setUserId] = useState(localStorage.getItem("userId"));
   const [attendanceData, setAttendanceData] = useState([]);
@@ -158,16 +159,7 @@ export default function HomePage() {
   if (!userId) {
     return (
       <div className="login-screen">
-        <div className="login-box">
-          <h1>👋 Welcome</h1>
-          <p>
-            Please open the dashboard using the link provided by your Telegram
-            bot.
-          </p>
-          <button className="p-3">
-            <TelegramButton />
-          </button>
-        </div>
+          <ThemeSignInPage/>
       </div>
     );
   }
