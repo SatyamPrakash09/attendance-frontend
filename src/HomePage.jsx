@@ -12,6 +12,9 @@ import Tooltip from "./components/tooltip";
 import ThemeSignInPage from "./LoginPage";
 
 
+import WebAiChat from "./components/WebAiChat";
+
+
 /* -------------------- HELPERS -------------------- */
 function getMonthYear(dateString) {
   return new Date(dateString).toLocaleDateString("en-IN", {
@@ -34,11 +37,9 @@ export default function HomePage() {
 
   const [userId, setUserId] = useState(localStorage.getItem("userId"));
   const [attendanceData, setAttendanceData] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [summary, setSummary] = useState("");
   const [sortOrder, setSortOrder] = useState("latest");
   const [statusFilter, setStatusFilter] = useState("All");
-  // const[userName,setUserName] = useState("Not Found")
+  const [isChatOpen, setIsChatOpen] = useState(false);
   const [alert, setAlert] = useState({
     show: false,
     message: "",
@@ -52,20 +53,18 @@ export default function HomePage() {
     const params = new URLSearchParams(window.location.search);
     const uid = params.get("uid");
 
-    if (uid) {
+    if (uid && uid !== userId) {
       localStorage.setItem("userId", uid);
       setUserId(uid);
       window.history.replaceState({}, document.title, "/");
     }
-  }, []);
+  }, [userId]);
 
   /* =================================================
      2️⃣ FETCH ATTENDANCE DATA
      ================================================= */
   useEffect(() => {
     if (!userId) return;
-
-    setLoading(true);
 
     fetch(`${API_BASE}/attendance/all?userId=${userId}`)
       .then(res => {
@@ -84,9 +83,8 @@ export default function HomePage() {
         });
         localStorage.removeItem("userId");
         setUserId(null);
-      })
-      .finally(() => setLoading(false));
-  }, [userId]);
+      });
+  }, [userId, API_BASE]);
 
   /* =================================================
      3️⃣ LOGOUT
@@ -112,22 +110,7 @@ export default function HomePage() {
     userName = workingDays[0]?.name || "User";
   }
 
-  /* =================================================
-     5️⃣ AI SUMMARY (frontend mock)
-     ================================================= */
-  async function handleSummarize(){
-    try{
 
-      setSummary("Analyzing patterns...");
-      const result = await fetch(`${API_BASE}/attendance/summarize?userId=${userId}`)
-      const response = await result.json()
-      setSummary(response.summary)
-      
-    }catch(e){
-      return(`Error: ${e}`)
-    }
-    
-  };
 
   /* =================================================
      6️⃣ GROUP & SORT DATA
@@ -246,11 +229,14 @@ export default function HomePage() {
             </div>
 
             <div className="card p-3 text-center border border-white/5 bg-linear-to-b from-[#1c1c21] to-[#16161A]">
-              <h3>✨ AI Insight</h3>
-              <button onClick={handleSummarize} disabled={loading}>
-                {loading ? "Thinking..." : "Summarize"}
+              <h3>✨ AI Onix</h3>
+              <p className="text-xs text-gray-500 mb-4">Chat with Onix assistant for deeper insights.</p>
+              <button 
+                className="bg-[#7C3AED] hover:bg-[#6D28D9] text-white px-6 py-2 rounded-full text-sm font-bold transition-all shadow-md shadow-purple-500/20"
+                onClick={() => setIsChatOpen(true)}
+              >
+                Open Chat
               </button>
-              {summary && <p className="ai-result">{summary}</p>}
             </div>
           </aside>
 
@@ -322,42 +308,16 @@ export default function HomePage() {
                 </tbody>
               </table>
             </div>
-            {/* <table>
-              <thead>
-                <tr>
-                  <th className="bg-[#1c1c21] py-4">Date</th>
-                  <th className="bg-[#1c1c21] py-4">Status</th>
-                  <th className="bg-[#1c1c21] py-4">Reason</th>
-                </tr>
-              </thead>
-              <tbody>
-                {Object.keys(groupedAttendance).length === 0 ? (
-                  <tr>
-                    <td colSpan="3" className="no-data">
-                      No records found
-                    </td>
-                  </tr>
-                ) : (
-                  Object.entries(groupedAttendance).map(([month, records]) => (
-                    <React.Fragment key={month}>
-                      <tr className="month-header border-[#434655]">
-                        <td className="bg-[#171720] border-t border-t-[#334155] " colSpan="3">{month}</td>
-                      </tr>
-                      {records.map((r, i) => (
-                        <tr key={i}>
-                          <td>{formatDate(r.date)}</td>
-                          <td>{r.status}</td>
-                          <td>{r.reason || "—"}</td>
-                        </tr>
-                      ))}
-                    </React.Fragment>
-                  ))
-                )}
-              </tbody>
-            </table> */}
           </section>
         </div>
       </main>
+
+      <WebAiChat 
+        userId={userId} 
+        apiBase={API_BASE} 
+        isOpen={isChatOpen} 
+        setIsOpen={setIsChatOpen} 
+      />
     </div>
   );
 }
