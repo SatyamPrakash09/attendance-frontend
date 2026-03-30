@@ -1,12 +1,9 @@
 import React, { useEffect, useState, useMemo } from "react";
 import "./HomePage.css";
-import ActionAlerts from "./components/ActionAlerts";
-import Button from '@mui/material/Button';
 import Avatar from "@mui/material/Avatar";
-import TelegramIcon from '@mui/icons-material/Telegram';
+
 import { deepPurple } from '@mui/material/colors';
 import GitHubIcon from '@mui/icons-material/GitHub';
-import TelegramButton from "./pages/Telegram";
 import AttendanceCalendar from "./components/Attendance_Calendar";
 import Tooltip from "./components/tooltip";
 import ThemeSignInPage from "./LoginPage";
